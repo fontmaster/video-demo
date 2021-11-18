@@ -44,11 +44,18 @@ public class Customer {
 	public List<Rental> getRentals() {
 		return rentals;
 	}
-
-	public void setRentals(List<Rental> rentals) {
-		this.rentals = rentals;
+	
+	//Refectoring1
+	public void addRental(Rental rental) {
+		this.rentals.add(rental);
 	}
-
+	
+	public void clearRentals() {
+		this.rentals.clear();
+	}
+	
+	
+	//Refactoring2
 	public String getReport() {
 		String result = "Customer Report for " + getName() + "\n";
 
@@ -57,52 +64,35 @@ public class Customer {
 		double totalCharge = 0;
 		int totalPoint = 0;
 
-		for (Rental each : rentals) {
-			double eachCharge = 0;
-			int eachPoint = 0;
-			int daysRented = 0;
+		for (Rental rental : rentals) {		
+			int daysRented = rental.getDaysRented();
+			double charge = rental.getCharge();			
+			int point = rental.getPoint();
 
-			daysRented = each.getDaysRented();
+			result += "\t" + rental.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + charge
+					+ "\tPoint: " + point + "\n";
 
-			switch (each.getVideo().getPriceCode()) {
-			case Video.REGULAR:
-				eachCharge += 2;
-				if (daysRented > 2)
-					eachCharge += (daysRented - 2) * 1.5;
-				break;
-			case Video.NEW_RELEASE:
-				eachCharge = daysRented * 3;
-				break;
-			case Video.CHILDREN:
-				eachCharge += 1.5;
-				if (daysRented > 3)
-					eachCharge += (daysRented - 3) * 1.5;
-				break;
-			}
-			
-			eachPoint++;
-			if ((each.getVideo().getPriceCode() == Video.NEW_RELEASE))
-				eachPoint++;
-
-			if (daysRented > each.getDaysRentedLimit())
-				eachPoint -= Math.min(eachPoint, each.getVideo().getLateReturnPointPenalty());
-
-			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
-					+ "\tPoint: " + eachPoint + "\n";
-
-			totalCharge += eachCharge;
-			totalPoint += eachPoint;
+			totalCharge += charge;
+			totalPoint += point;
 		}
 		
 		result += "Total charge: " + totalCharge + "\tTotal Point:" + totalPoint + "\n";
+		result += getCoupon(totalPoint);
+		
+		return result;
+	}
 
+	private String getCoupon(int totalPoint) {
+		StringBuilder builder = new StringBuilder();
+		
 		if (totalPoint >= 10) {
-			System.out.println("Congrat! You earned one free coupon");
+			builder.append("Congrat! You earned one free coupon" + "\n");
 		}
 		if (totalPoint >= 30) {
-			System.out.println("Congrat! You earned two free coupon");
+			builder.append("Congrat! You earned two free coupon" + "\n");
 		}
-		return result;
+		
+		return builder.toString();
 	}
 
 }

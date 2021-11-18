@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -95,9 +94,7 @@ public class Video {
 		if (!isUnderAge(customer)) {
 			setRented(true);
 			Rental rental = new Rental(this);
-			List<Rental> customerRentals = customer.getRentals();
-			customerRentals.add(rental);
-			customer.setRentals(customerRentals);
+			customer.addRental(rental);
 			return true;
 		} else {
 			return false;

@@ -1,7 +1,6 @@
 package video.rental.demo.utils;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import video.rental.demo.domain.Customer;
 import video.rental.demo.domain.Rating;
@@ -37,11 +36,10 @@ public class SampleGenerator {
 
 		Rental r1 = new Rental(v1);
 		Rental r2 = new Rental(v2);
-
-		List<Rental> rentals = james.getRentals();
-		rentals.add(r1);
-		rentals.add(r2);
-		james.setRentals(rentals);
+		
+		//Refectoring1
+		james.addRental(r1);
+		james.addRental(r2);
 		repository.saveCustomer(james);
 	}
 }
