@@ -1,7 +1,10 @@
 package video.rental.demo.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -93,6 +96,17 @@ public class Customer {
 		}
 		
 		return builder.toString();
+	}
+
+	public boolean rentFor(Video video) {
+		if (!video.isUnderAge(getDateOfBirth())) {
+			video.setRented(true);
+			Rental rental = new Rental(video);
+			addRental(rental);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

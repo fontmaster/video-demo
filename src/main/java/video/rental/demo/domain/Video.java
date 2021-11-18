@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Locale;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,7 +16,7 @@ import javax.persistence.UniqueConstraint;
 public class Video {
 	@Id
 	private String title;
-	private Rating videoRating;
+	Rating videoRating;
 	private int priceCode;
 
 	public static final int REGULAR = 1;
@@ -90,24 +91,11 @@ public class Video {
 		return videoType;
 	}
 
-	public boolean rentFor(Customer customer) {
-		if (!isUnderAge(customer)) {
-			setRented(true);
-			Rental rental = new Rental(this);
-			customer.addRental(rental);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean isUnderAge(Customer customer) {
-		// calculate customer's age in years and months
-
+	public boolean isUnderAge(LocalDate dateOfBirth) {
 		// parse customer date of birth
 		Calendar calDateOfBirth = Calendar.getInstance();
 		try {
-			calDateOfBirth.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(customer.getDateOfBirth().toString()));
+			calDateOfBirth.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth.toString()));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

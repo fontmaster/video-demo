@@ -29,10 +29,10 @@ public class CmdUI {
 				listVideos();
 				break;
 			case 3:
-				register("customer");
+				registerCustomer();
 				break;
 			case 4:
-				register("video");
+				registerVideo();
 				break;
 			case 5:
 				rentVideo();
@@ -104,37 +104,36 @@ public class CmdUI {
 	}
 
 	// control coupling
-	public void register(String object) {
-		if (object.equals("customer")) {
-			System.out.println("Enter customer name: ");
-			String name = scanner.next();
+	public void registerCustomer() {
+		System.out.println("Enter customer name: ");
+		String name = scanner.next();
 
-			System.out.println("Enter customer code: ");
-			int code = scanner.nextInt();
+		System.out.println("Enter customer code: ");
+		int code = scanner.nextInt();
 
-			System.out.println("Enter customer birthday: ");
-			String dateOfBirth = scanner.next();
+		System.out.println("Enter customer birthday: ");
+		String dateOfBirth = scanner.next();
 
-			interactor.registerCustomer(name, code, dateOfBirth);
-		} else {
-			System.out.println("Enter video title to register: ");
-			String title = scanner.next();
-
-			System.out.println("Enter video type( 1 for VHD, 2 for CD, 3 for DVD ):");
-			int videoType = scanner.nextInt();
-
-			System.out.println("Enter price code( 1 for Regular, 2 for New Release 3 for Children ):");
-			int priceCode = scanner.nextInt();
-
-			System.out.println("Enter video rating( 1 for 12, 2 for 15, 3 for 18 ):");
-			int videoRating = scanner.nextInt();
-			
-			LocalDate registeredDate = LocalDate.now();
-			
-			interactor.registerVideo(title, videoType, priceCode, videoRating, registeredDate);
-		}
+		interactor.registerCustomer(name, code, dateOfBirth);		
 	}
+	public void registerVideo() {
+		System.out.println("Enter video title to register: ");
+		String title = scanner.next();
 
+		System.out.println("Enter video type( 1 for VHD, 2 for CD, 3 for DVD ):");
+		int videoType = scanner.nextInt();
+
+		System.out.println("Enter price code( 1 for Regular, 2 for New Release 3 for Children ):");
+		int priceCode = scanner.nextInt();
+
+		System.out.println("Enter video rating( 1 for 12, 2 for 15, 3 for 18 ):");
+		int videoRating = scanner.nextInt();
+		
+		LocalDate registeredDate = LocalDate.now();
+		
+		interactor.registerVideo(title, videoType, priceCode, videoRating, registeredDate);
+			
+	}
 	public int getCommand() {
 		System.out.println("\nSelect a command !");
 		System.out.println("\t 0. Quit");
